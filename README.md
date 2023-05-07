@@ -2,7 +2,6 @@
 
 - 🔭 Eu estou atualmente trabalhando como Analista
 - 🌱 Eu estou atualmente aprendendo Java
-- 😄 Pronomes: ele/dele
 
 <a href="https://github.com/anuraghazra/github-readme-stats">
   <img align="center" height="250" width="500" src="https://github-readme-stats.vercel.app/api?username=Mephistosz&show_icons=true&theme=tokyonight&custom_title=Felipe&nbsp;Gomes&nbsp;Github&nbsp;Stats&locale=pt-br&include_all_commits=true&count_private=true" />
