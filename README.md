@@ -1,4 +1,3 @@
-[![MasterHead](https://developers.giphy.com/branch/master/static/api-512d36c09662682717108a38bbb5c57d.gif)](https://github.com/Mephistosz/Mephistosz)
 <h1 align="center">Olá 👋, Eu sou o Felipe Gomes</h1>
  
 - 🔭 Eu estou atualmente trabalhando como Analista
