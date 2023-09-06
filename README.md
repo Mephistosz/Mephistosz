@@ -1,4 +1,4 @@
-<h1 align="center">Hi 👋, i am Felipe Gomes</h1>
+<h1 align="center">Hi 👋, i am Felipe</h1>
  
 - 🔭 I am currently working as an Analyst
 - 🌱 I am currently learning Java
