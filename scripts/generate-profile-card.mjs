@@ -9,7 +9,7 @@ const fallback = {
   weeks: buildFallbackWeeks(),
 };
 
-function escapeHtml(value) {
+function escapeXml(value) {
   return String(value)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
@@ -85,71 +85,86 @@ function levelToColor(day) {
   return "#39d353";
 }
 
-function renderHeatmapCells(weeks) {
+function renderHeatmap(weeks, startX, startY) {
+  const cell = 7;
+  const gap = 2;
   const normalizedWeeks = weeks.slice(-53);
+  const rects = [];
 
-  return normalizedWeeks.map((week) => {
+  normalizedWeeks.forEach((week, weekIndex) => {
     const days = week.contributionDays || [];
-    const cells = days.map((day) => {
-      const color = levelToColor(day);
-      return `<div style="width:10px;height:10px;border-radius:2px;background:${color};"></div>`;
-    }).join("");
-    return `<div style="display:flex;flex-direction:column;gap:2px;">${cells}</div>`;
-  }).join("");
+    days.forEach((day, dayIndex) => {
+      const x = startX + weekIndex * (cell + gap);
+      const y = startY + dayIndex * (cell + gap);
+      rects.push(`<rect x="${x}" y="${y}" width="${cell}" height="${cell}" rx="1.5" fill="${levelToColor(day)}"/>`);
+    });
+  });
+
+  return rects.join("\n      ");
 }
 
 function renderCard(calendar) {
   const contributions = Number(calendar.totalContributions || fallback.totalContributions).toLocaleString("en-US");
-  const heatmapCells = renderHeatmapCells(calendar.weeks || fallback.weeks);
   const generatedAt = new Date().toISOString().slice(0, 10);
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="980" height="420" viewBox="0 0 980 420" role="img" aria-labelledby="title desc">
-  <title id="title">${escapeHtml(username)} backend profile card</title>
+  const mono = "Consolas, Monaco, 'Courier New', monospace";
+  const sans = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif";
+  const heatmapX = 470;
+  const heatmapY = 170;
+  const heatmap = renderHeatmap(calendar.weeks || fallback.weeks, heatmapX, heatmapY);
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="980" height="430" viewBox="0 0 980 430" role="img" aria-labelledby="title desc">
+  <title id="title">${escapeXml(username)} backend profile card</title>
   <desc id="desc">A dark terminal-style GitHub profile card with contribution calendar data.</desc>
-  <foreignObject width="980" height="420">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="width:980px;height:420px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:linear-gradient(135deg,#080914,#111427,#241430);border-radius:28px;border:1px solid #2f344d;overflow:hidden;position:relative;">
-      <div style="position:absolute;top:0;right:0;width:340px;height:340px;background:radial-gradient(circle,rgba(187,154,247,0.15) 0%,rgba(122,162,247,0) 70%);pointer-events:none;"></div>
-      <div style="position:relative;z-index:1;padding:0;">
-        <div style="background:#14172a;border-bottom:1px solid #252a42;padding:12px 28px;display:flex;align-items:center;gap:8px;border-radius:28px 28px 0 0;">
-          <span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#f7768e;"></span>
-          <span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#e0af68;"></span>
-          <span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#9ece6a;"></span>
-          <span style="margin-left:12px;font-family:Consolas,Monaco,'Courier New',monospace;font-size:13px;color:#79809a;">mephistosz@github:~/profile</span>
-        </div>
-        <div style="padding:28px 40px 24px 40px;">
-          <div style="display:flex;gap:48px;align-items:flex-start;">
-            <div style="flex:1;min-width:0;">
-              <div style="font-family:Consolas,Monaco,'Courier New',monospace;font-size:16px;color:#9ece6a;margin-bottom:14px;">$ build --backend-profile</div>
-              <div style="font-size:34px;font-weight:700;color:#c0caf5;line-height:1.2;margin-bottom:8px;">Felipe Gomes</div>
-              <div style="font-size:17px;font-weight:600;color:#7dcfff;margin-bottom:14px;">Backend Developer | Java &amp; Spring Boot</div>
-              <div style="font-size:14px;color:#79809a;line-height:1.5;margin-bottom:24px;">Clean APIs, service layers, database-backed systems, and maintainable backend code.</div>
-              <div style="display:flex;gap:12px;align-items:center;margin-bottom:6px;">
-                <span style="font-size:38px;font-weight:800;color:#c0caf5;line-height:1;">${contributions}</span>
-                <span style="font-size:14px;color:#79809a;">contributions in the last year</span>
-              </div>
-              <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
-                <span style="display:inline-block;padding:6px 16px;border-radius:14px;background:#151a2e;border:1px solid #303852;font-size:12px;font-weight:700;color:#e0af68;">Java</span>
-                <span style="display:inline-block;padding:6px 16px;border-radius:14px;background:#151a2e;border:1px solid #303852;font-size:12px;font-weight:700;color:#9ece6a;">Spring Boot</span>
-                <span style="display:inline-block;padding:6px 16px;border-radius:14px;background:#151a2e;border:1px solid #303852;font-size:12px;font-weight:700;color:#7dcfff;">REST APIs</span>
-                <span style="display:inline-block;padding:6px 16px;border-radius:14px;background:#151a2e;border:1px solid #303852;font-size:12px;font-weight:700;color:#bb9af7;">Databases</span>
-              </div>
-            </div>
-            <div style="flex-shrink:0;">
-              <div style="font-family:Consolas,Monaco,'Courier New',monospace;font-size:15px;color:#bb9af7;margin-bottom:6px;">contributionCalendar</div>
-              <div style="font-family:Consolas,Monaco,'Courier New',monospace;font-size:11px;color:#79809a;margin-bottom:12px;">GitHub GraphQL data &bull; ${generatedAt}</div>
-              <div style="display:flex;gap:2px;align-items:flex-end;">
-                ${heatmapCells}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div style="background:linear-gradient(90deg,#7aa2f7,#bb9af7,#f7768e);height:3px;"></div>
-        <div style="padding:8px 40px;background:rgba(13,15,26,0.5);border-radius:0 0 28px 28px;">
-          <span style="font-family:Consolas,Monaco,'Courier New',monospace;font-size:11px;color:#79809a;">Java &bull; Spring Boot &bull; REST APIs &bull; MongoDB &bull; Oracle &bull; Git</span>
-        </div>
-      </div>
-    </div>
-  </foreignObject>
+
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#080914"/>
+      <stop offset="50%" stop-color="#111427"/>
+      <stop offset="100%" stop-color="#241430"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7aa2f7"/>
+      <stop offset="50%" stop-color="#bb9af7"/>
+      <stop offset="100%" stop-color="#f7768e"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="980" height="430" rx="28" fill="url(#bgGrad)"/>
+  <rect x="0.5" y="0.5" width="979" height="429" rx="27.5" fill="none" stroke="#2f344d"/>
+
+  <rect x="34" y="28" width="912" height="304" rx="20" fill="#0d0f1a" opacity="0.94" stroke="#252a42"/>
+  <rect x="34" y="28" width="912" height="44" rx="20" fill="#14172a"/>
+  <line x1="34" y1="56" x2="946" y2="56" stroke="#252a42" stroke-width="1"/>
+
+  <circle cx="62" cy="51" r="6" fill="#f7768e"/>
+  <circle cx="84" cy="51" r="6" fill="#e0af68"/>
+  <circle cx="106" cy="51" r="6" fill="#9ece6a"/>
+  <text x="132" y="56" font-family="${mono}" font-size="13" fill="#79809a">mephistosz@github:~/profile</text>
+
+  <text x="62" y="112" font-family="${mono}" font-size="16" fill="#9ece6a">$ build --backend-profile</text>
+  <text x="62" y="152" font-family="${sans}" font-size="34" font-weight="700" fill="#c0caf5">Felipe Gomes</text>
+  <text x="62" y="182" font-family="${sans}" font-size="17" font-weight="600" fill="#7dcfff">Backend Developer | Java &amp; Spring Boot</text>
+  <text x="62" y="216" font-family="${sans}" font-size="14" fill="#79809a">Clean APIs, service layers, database-backed systems, and maintainable backend code.</text>
+
+  <text x="62" y="272" font-family="${sans}" font-size="38" font-weight="800" fill="#c0caf5">${contributions}</text>
+  <text x="260" y="272" font-family="${sans}" font-size="14" fill="#79809a">contributions in the last year</text>
+
+  <rect x="62" y="292" width="90" height="28" rx="14" fill="#151a2e" stroke="#303852"/>
+  <text x="82" y="311" font-family="${sans}" font-size="12" font-weight="700" fill="#e0af68">Java</text>
+  <rect x="162" y="292" width="116" height="28" rx="14" fill="#151a2e" stroke="#303852"/>
+  <text x="186" y="311" font-family="${sans}" font-size="12" font-weight="700" fill="#9ece6a">Spring Boot</text>
+  <rect x="288" y="292" width="104" height="28" rx="14" fill="#151a2e" stroke="#303852"/>
+  <text x="310" y="311" font-family="${sans}" font-size="12" font-weight="700" fill="#7dcfff">REST APIs</text>
+  <rect x="402" y="292" width="106" height="28" rx="14" fill="#151a2e" stroke="#303852"/>
+  <text x="424" y="311" font-family="${sans}" font-size="12" font-weight="700" fill="#bb9af7">Databases</text>
+
+  <text x="${heatmapX}" y="129" font-family="${mono}" font-size="15" fill="#bb9af7">contributionCalendar</text>
+  <text x="${heatmapX}" y="153" font-family="${mono}" font-size="11" fill="#79809a">GitHub GraphQL data &#x2022; ${generatedAt}</text>
+  ${heatmap}
+
+  <rect x="34" y="396" width="912" height="3" fill="url(#accentGrad)"/>
+  <text x="62" y="420" font-family="${mono}" font-size="11" fill="#79809a">Java &#x2022; Spring Boot &#x2022; REST APIs &#x2022; MongoDB &#x2022; Oracle &#x2022; Git</text>
 </svg>`;
 }
 
