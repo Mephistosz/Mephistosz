@@ -1,55 +1,66 @@
 <h1 align="center">Felipe Gomes</h1>
-<h3 align="center">Backend Developer focused on Java, Spring Boot, APIs, and database-driven systems</h3>
 
 <p align="center">
-  I build backend services with attention to clean code, maintainability, and practical problem solving.
-  <br />
-  Currently sharpening my skills across the Java ecosystem, REST APIs, and persistence layers.
+  <strong>Backend Developer | Java & Spring Boot</strong>
+</p>
+
+<p align="center">
+  Building clean APIs, database-driven services, and maintainable backend systems.
 </p>
 
 <div align="center">
-  <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExOTYwMjY3OTcwN2Y1MWRhMTMwNGMxNjcwNGQwNjI3NWM4MWMxYjM2MyZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/11KzOet1ElBDz2/giphy.gif" alt="Anime coding scene" width="420" />
+  <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExOTYwMjY3OTcwN2Y1MWRhMTMwNGMxNjcwNGQwNjI3NWM4MWMxYjM2MyZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/11KzOet1ElBDz2/giphy.gif" alt="Anime coding scene" width="430" />
 </div>
 
 <br />
 
-## About me
+```bash
+mephistosz@github:~$ whoami
+Backend developer focused on Java, Spring Boot, REST APIs, and persistence layers.
+```
 
-- Backend Developer with a strong interest in Java and Spring Boot
-- Focused on building REST APIs, service layers, and database-backed applications
-- Comfortable working with relational and NoSQL databases
-- Always improving my software design, debugging, and delivery skills
+## ~/about
 
-## Backend focus
+- I work with backend development and practical software problem solving
+- I like clean service layers, readable APIs, and database-backed applications
+- I am currently sharpening my Java, Spring Boot, and backend architecture skills
+- I care about code that is simple to understand, debug, and maintain
 
-- API design and implementation
-- Java and Spring Boot applications
-- Database modeling and persistence
-- Clean, readable, and maintainable backend code
-- Git-based collaboration and version control
+## ~/currently
 
-## Tech stack
+- Designing and implementing REST APIs
+- Building stronger Java and Spring Boot foundations
+- Working with relational and NoSQL persistence
+- Improving debugging, delivery, and Git workflow consistency
+
+## ~/toolbox
 
 <p align="left">
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original-wordmark.svg" alt="Java" height="52" width="62" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original-wordmark.svg" alt="Spring" height="52" width="62" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original-wordmark.svg" alt="MongoDB" height="52" width="62" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg" alt="Oracle" height="52" width="62" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" height="52" width="62" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original-wordmark.svg" alt="Git" height="52" width="62" />
+  <img src="https://img.shields.io/badge/Java-151515?style=for-the-badge&logo=openjdk&logoColor=ED8B00" alt="Java" />
+  <img src="https://img.shields.io/badge/Spring_Boot-151515?style=for-the-badge&logo=springboot&logoColor=6DB33F" alt="Spring Boot" />
+  <img src="https://img.shields.io/badge/REST_APIs-151515?style=for-the-badge&logo=fastapi&logoColor=00C7B7" alt="REST APIs" />
+  <img src="https://img.shields.io/badge/MongoDB-151515?style=for-the-badge&logo=mongodb&logoColor=47A248" alt="MongoDB" />
+  <img src="https://img.shields.io/badge/Oracle-151515?style=for-the-badge&logo=oracle&logoColor=F80000" alt="Oracle" />
+  <img src="https://img.shields.io/badge/JavaScript-151515?style=for-the-badge&logo=javascript&logoColor=F7DF1E" alt="JavaScript" />
+  <img src="https://img.shields.io/badge/Git-151515?style=for-the-badge&logo=git&logoColor=F05032" alt="Git" />
 </p>
 
-## GitHub overview
+## ~/principles
+
+- Keep systems readable before they become clever
+- Prefer maintainable solutions over unnecessary complexity
+- Debug from evidence, not guesses
+- Build backend code that other developers can safely change
+
+## ~/metrics
 
 <p align="center">
-  <img height="180" src="https://github-readme-stats.vercel.app/api?username=Mephistosz&show_icons=true&theme=tokyonight&custom_title=Felipe%20Gomes%20GitHub%20Stats&include_all_commits=true&count_private=true" alt="Felipe Gomes GitHub stats" />
-  <img height="180" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Mephistosz&layout=compact&theme=tokyonight&custom_title=Most%20Used%20Languages" alt="Most used languages" />
+  <img src="./github-metrics.svg" alt="GitHub metrics for Felipe Gomes" />
 </p>
 
-## Contact
+## ~/contact
 
-<p>
-  Open to backend developer opportunities.
-  <br />
-  Email: <a href="mailto:felipe.gomes.fg877@gmail.com">felipe.gomes.fg877@gmail.com</a>
-</p>
+```text
+Open to backend developer opportunities.
+Email: felipe.gomes.fg877@gmail.com
+```
