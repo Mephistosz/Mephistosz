@@ -52,17 +52,10 @@ Backend developer focused on Java, Spring Boot, REST APIs, and persistence layer
 - Debug from evidence, not guesses
 - Build backend code that other developers can safely change
 
-## ~/terminal-card
+## ~/profile
 
 <p align="center">
-  <img src="./github-metrics.svg" alt="Terminal-style backend profile card for Felipe Gomes" />
-</p>
-
-## ~/stats
-
-<p align="center">
-  <img src="./assets/stats.svg" alt="Felipe Gomes GitHub stats" width="420" />
-  <img src="./assets/languages.svg" alt="Felipe Gomes top languages" width="420" />
+  <img src="./assets/profile-card.svg" alt="Felipe Gomes backend profile card" />
 </p>
 
 ## ~/contact
