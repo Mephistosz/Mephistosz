@@ -52,12 +52,6 @@ Backend developer focused on Java, Spring Boot, REST APIs, and persistence layer
 - Debug from evidence, not guesses
 - Build backend code that other developers can safely change
 
-## ~/profile
-
-<p align="center">
-  <img src="./assets/profile-card.svg" alt="Felipe Gomes backend profile card" />
-</p>
-
 ## ~/contact
 
 ```text
