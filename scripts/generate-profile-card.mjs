@@ -9,7 +9,7 @@ const fallback = {
   weeks: buildFallbackWeeks(),
 };
 
-function escapeXml(value) {
+function escapeHtml(value) {
   return String(value)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
@@ -78,99 +78,79 @@ function levelToColor(day) {
   const count = day.contributionCount || 0;
   const level = day.contributionLevel || "NONE";
 
-  if (count === 0 || level === "NONE" || level === "LEVEL_0") return "#1a1b2c";
-  if (level === "FIRST_QUARTILE" || level === "LEVEL_1") return "#7aa2f7";
-  if (level === "SECOND_QUARTILE" || level === "LEVEL_2") return "#9ece6a";
-  if (level === "THIRD_QUARTILE" || level === "LEVEL_3") return "#bb9af7";
-  return "#f7768e";
+  if (count === 0 || level === "NONE" || level === "LEVEL_0") return "#161b22";
+  if (level === "FIRST_QUARTILE" || level === "LEVEL_1") return "#0e4429";
+  if (level === "SECOND_QUARTILE" || level === "LEVEL_2") return "#006d32";
+  if (level === "THIRD_QUARTILE" || level === "LEVEL_3") return "#26a641";
+  return "#39d353";
 }
 
-function renderHeatmap(weeks) {
-  const cell = 8;
-  const gap = 3;
-  const startX = 462;
-  const startY = 169;
+function renderHeatmapCells(weeks) {
   const normalizedWeeks = weeks.slice(-53);
 
-  return normalizedWeeks.flatMap((week, weekIndex) => {
+  return normalizedWeeks.map((week) => {
     const days = week.contributionDays || [];
-    return days.map((day, dayIndex) => {
-      const x = startX + weekIndex * (cell + gap);
-      const y = startY + dayIndex * (cell + gap);
-      return `<rect x="${x}" y="${y}" width="${cell}" height="${cell}" rx="2" fill="${levelToColor(day)}" />`;
-    });
-  }).join("\n    ");
+    const cells = days.map((day) => {
+      const color = levelToColor(day);
+      return `<div style="width:10px;height:10px;border-radius:2px;background:${color};"></div>`;
+    }).join("");
+    return `<div style="display:flex;flex-direction:column;gap:2px;">${cells}</div>`;
+  }).join("");
 }
 
 function renderCard(calendar) {
   const contributions = Number(calendar.totalContributions || fallback.totalContributions).toLocaleString("en-US");
-  const heatmap = renderHeatmap(calendar.weeks || fallback.weeks);
+  const heatmapCells = renderHeatmapCells(calendar.weeks || fallback.weeks);
   const generatedAt = new Date().toISOString().slice(0, 10);
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="980" height="360" viewBox="0 0 980 360" role="img" aria-labelledby="title desc">
-  <title id="title">${escapeXml(username)} backend profile card</title>
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="980" height="420" viewBox="0 0 980 420" role="img" aria-labelledby="title desc">
+  <title id="title">${escapeHtml(username)} backend profile card</title>
   <desc id="desc">A dark terminal-style GitHub profile card with contribution calendar data.</desc>
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#080914" />
-      <stop offset="50%" stop-color="#111427" />
-      <stop offset="100%" stop-color="#241430" />
-    </linearGradient>
-    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#7aa2f7" />
-      <stop offset="50%" stop-color="#bb9af7" />
-      <stop offset="100%" stop-color="#f7768e" />
-    </linearGradient>
-    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#bb9af7" stop-opacity="0.65" />
-      <stop offset="100%" stop-color="#7aa2f7" stop-opacity="0" />
-    </radialGradient>
-    <style>
-      .mono { font-family: Consolas, Monaco, 'Courier New', monospace; }
-      .sans { font-family: Inter, Segoe UI, Arial, sans-serif; }
-      .muted { fill: #79809a; }
-      .text { fill: #c0caf5; }
-      .blue { fill: #7dcfff; }
-      .green { fill: #9ece6a; }
-      .yellow { fill: #e0af68; }
-      .pink { fill: #f7768e; }
-      .purple { fill: #bb9af7; }
-    </style>
-  </defs>
-
-  <rect width="980" height="360" rx="28" fill="url(#bg)" />
-  <rect x="1" y="1" width="978" height="358" rx="27" fill="none" stroke="#2f344d" />
-  <circle cx="832" cy="78" r="170" fill="url(#glow)" />
-
-  <rect x="34" y="28" width="912" height="304" rx="20" fill="#0d0f1a" opacity="0.94" stroke="#252a42" />
-  <rect x="34" y="28" width="912" height="44" rx="20" fill="#14172a" />
-  <path d="M34 56 H946" stroke="#252a42" />
-  <circle cx="62" cy="51" r="6" fill="#f7768e" />
-  <circle cx="84" cy="51" r="6" fill="#e0af68" />
-  <circle cx="106" cy="51" r="6" fill="#9ece6a" />
-  <text x="132" y="56" class="mono muted" font-size="14">mephistosz@github:~/profile</text>
-
-  <text x="62" y="112" class="mono green" font-size="18">$ build --backend-profile</text>
-  <text x="62" y="151" class="sans text" font-size="34" font-weight="700">Felipe Gomes</text>
-  <text x="62" y="181" class="sans blue" font-size="18" font-weight="600">Backend Developer | Java &amp; Spring Boot</text>
-  <text x="62" y="216" class="sans muted" font-size="15">Clean APIs, service layers, persistence, and maintainable backend systems.</text>
-
-  <text x="62" y="267" class="sans text" font-size="38" font-weight="800">${contributions}</text>
-  <text x="62" y="293" class="sans muted" font-size="15">contributions in the last year</text>
-
-  <rect x="292" y="247" width="112" height="31" rx="15.5" fill="#151a2e" stroke="#303852" />
-  <text x="319" y="267" class="sans yellow" font-size="12" font-weight="700">Java</text>
-  <rect x="292" y="286" width="112" height="31" rx="15.5" fill="#151a2e" stroke="#303852" />
-  <text x="312" y="306" class="sans green" font-size="12" font-weight="700">Spring</text>
-
-  <text x="462" y="129" class="mono purple" font-size="18">contributionCalendar</text>
-  <text x="462" y="153" class="mono muted" font-size="13">official GitHub GraphQL data • updated ${generatedAt}</text>
-  ${heatmap}
-
-  <text x="62" y="329" class="mono muted" font-size="12">Java • Spring Boot • REST APIs • MongoDB • Oracle • Git</text>
-  <rect x="34" y="328" width="912" height="4" rx="2" fill="url(#accent)" />
-</svg>
-`;
+  <foreignObject width="980" height="420">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="width:980px;height:420px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:linear-gradient(135deg,#080914,#111427,#241430);border-radius:28px;border:1px solid #2f344d;overflow:hidden;position:relative;">
+      <div style="position:absolute;top:0;right:0;width:340px;height:340px;background:radial-gradient(circle,rgba(187,154,247,0.15) 0%,rgba(122,162,247,0) 70%);pointer-events:none;"></div>
+      <div style="position:relative;z-index:1;padding:0;">
+        <div style="background:#14172a;border-bottom:1px solid #252a42;padding:12px 28px;display:flex;align-items:center;gap:8px;border-radius:28px 28px 0 0;">
+          <span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#f7768e;"></span>
+          <span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#e0af68;"></span>
+          <span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#9ece6a;"></span>
+          <span style="margin-left:12px;font-family:Consolas,Monaco,'Courier New',monospace;font-size:13px;color:#79809a;">mephistosz@github:~/profile</span>
+        </div>
+        <div style="padding:28px 40px 24px 40px;">
+          <div style="display:flex;gap:48px;align-items:flex-start;">
+            <div style="flex:1;min-width:0;">
+              <div style="font-family:Consolas,Monaco,'Courier New',monospace;font-size:16px;color:#9ece6a;margin-bottom:14px;">$ build --backend-profile</div>
+              <div style="font-size:34px;font-weight:700;color:#c0caf5;line-height:1.2;margin-bottom:8px;">Felipe Gomes</div>
+              <div style="font-size:17px;font-weight:600;color:#7dcfff;margin-bottom:14px;">Backend Developer | Java &amp; Spring Boot</div>
+              <div style="font-size:14px;color:#79809a;line-height:1.5;margin-bottom:24px;">Clean APIs, service layers, database-backed systems, and maintainable backend code.</div>
+              <div style="display:flex;gap:12px;align-items:center;margin-bottom:6px;">
+                <span style="font-size:38px;font-weight:800;color:#c0caf5;line-height:1;">${contributions}</span>
+                <span style="font-size:14px;color:#79809a;">contributions in the last year</span>
+              </div>
+              <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
+                <span style="display:inline-block;padding:6px 16px;border-radius:14px;background:#151a2e;border:1px solid #303852;font-size:12px;font-weight:700;color:#e0af68;">Java</span>
+                <span style="display:inline-block;padding:6px 16px;border-radius:14px;background:#151a2e;border:1px solid #303852;font-size:12px;font-weight:700;color:#9ece6a;">Spring Boot</span>
+                <span style="display:inline-block;padding:6px 16px;border-radius:14px;background:#151a2e;border:1px solid #303852;font-size:12px;font-weight:700;color:#7dcfff;">REST APIs</span>
+                <span style="display:inline-block;padding:6px 16px;border-radius:14px;background:#151a2e;border:1px solid #303852;font-size:12px;font-weight:700;color:#bb9af7;">Databases</span>
+              </div>
+            </div>
+            <div style="flex-shrink:0;">
+              <div style="font-family:Consolas,Monaco,'Courier New',monospace;font-size:15px;color:#bb9af7;margin-bottom:6px;">contributionCalendar</div>
+              <div style="font-family:Consolas,Monaco,'Courier New',monospace;font-size:11px;color:#79809a;margin-bottom:12px;">GitHub GraphQL data &bull; ${generatedAt}</div>
+              <div style="display:flex;gap:2px;align-items:flex-end;">
+                ${heatmapCells}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="background:linear-gradient(90deg,#7aa2f7,#bb9af7,#f7768e);height:3px;"></div>
+        <div style="padding:8px 40px;background:rgba(13,15,26,0.5);border-radius:0 0 28px 28px;">
+          <span style="font-family:Consolas,Monaco,'Courier New',monospace;font-size:11px;color:#79809a;">Java &bull; Spring Boot &bull; REST APIs &bull; MongoDB &bull; Oracle &bull; Git</span>
+        </div>
+      </div>
+    </div>
+  </foreignObject>
+</svg>`;
 }
 
 async function main() {
